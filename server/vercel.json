@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "mood_recommendation.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/recommendations",
+            "dest": "mood_recommendation.py"
+        }
+    ],
+    "env": {
+        "PYTHON_VERSION": "3.9"
+    }
+}
