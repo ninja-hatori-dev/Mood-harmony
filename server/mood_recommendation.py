@@ -20,8 +20,10 @@ def setup_gemini():
     model = genai.GenerativeModel('gemini-1.5-pro')
     return model
 
+# Initialize the Gemini model globally
+model = setup_gemini()
+
 def get_time_of_day(hour):
-    
     if 5 <= hour < 12:
         return "morning"
     elif 12 <= hour < 17:
@@ -32,19 +34,31 @@ def get_time_of_day(hour):
         return "night"
 
 def create_prompt(mood, hour):
-   
     time_of_day = get_time_of_day(hour)
-    return f"""As an expert in both culinary arts and music therapy, provide personalized recommendations for someone who is feeling {mood} during the {time_of_day} (current hour: {hour}:00).
+    return f"""As an expert in both music therapy and culinary arts, provide personalized recommendations for someone who is feeling {mood} during the {time_of_day} (current hour: {hour}:00).
 Please suggest:
-1. A specific type of cuisine or dish that would complement and support their current emotional state
-2. A genre or style of music that would be appropriate for their mood and the time of day
-3. A brief explanation of why these recommendations would be beneficial
+1. A specific type of cuisine or dish that would complement and support their current emotional state.
+2. 5 songs  .formatted as a JSON array:
+[
+    {{"title": "Song Title 1"}},
+    {{"title": "Song Title 2"}},
+    {{"title": "Song Title 3"}},
+    {{"title": "Song Title 4"}},
+    {{"title": "Song Title 5"}}
+]
+3. A brief explanation of why these recommendations (both cuisine and music) are beneficial.
 
 Format the response as a JSON object with the following structure:
 {{
-  "cuisine": "specific food recommendation",
-  "musicGenre": "specific music recommendation",
-  "explanation": "brief explanation of the recommendations"
+  "cuisine": "Recommended cuisine or dish",
+  "songs": [
+    {{"title": "Song Title 1"}},
+    {{"title": "Song Title 2"}},
+    {{"title": "Song Title 3"}},
+    {{"title": "Song Title 4"}},
+    {{"title": "Song Title 5"}}
+  ],
+  "explanation": "Brief explanation of why these recommendations are beneficial"
 }}"""
 
 def get_recommendations(model, mood, hour):
@@ -59,8 +73,6 @@ def get_recommendations(model, mood, hour):
         return recommendations
     except Exception as e:
         return {"error": str(e)}
-
-model = setup_gemini()
 
 @app.route('/api/recommendations', methods=['POST'])
 def recommendations():
