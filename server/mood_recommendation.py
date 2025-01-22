@@ -66,12 +66,15 @@ model = setup_gemini()
 def recommendations():
     data = request.json
     mood = data.get('mood')
-    current_hour = datetime.now().hour
+    client_hour = data.get('hour')  # Get hour from client
     
     if not mood:
         return jsonify({"error": "Mood is required"}), 400
     
-    recommendations = get_recommendations(model, mood, current_hour)
+    if client_hour is None:
+        return jsonify({"error": "Hour is required"}), 400
+    
+    recommendations = get_recommendations(model, mood, client_hour)
     return jsonify(recommendations)
 
 if __name__ == '__main__':

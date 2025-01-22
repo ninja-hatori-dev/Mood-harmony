@@ -11,14 +11,14 @@ const App = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-console.log(import.meta.env.VITE_SERVER_API);
+const currentHour = new Date().getHours();
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/recommendations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mood }),
+        body: JSON.stringify({ mood , hour: currentHour }),
       });
 
       if (!response.ok) {
