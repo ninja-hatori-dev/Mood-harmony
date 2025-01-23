@@ -13,7 +13,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "https://mood-harmony-f.vercel.app"}})
+CORS(app)
 def setup_spotify_client():
     client_id = os.getenv('SPOTIFY_CLIENT_ID')
     client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
