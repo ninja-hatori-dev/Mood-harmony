@@ -13,8 +13,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, resources={r"/api/*": {"origins": "https://mood-harmony-f.vercel.app"}})
 def setup_spotify_client():
     client_id = os.getenv('SPOTIFY_CLIENT_ID')
     client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
@@ -128,7 +127,7 @@ Format the response as a JSON object with the following structure:
 
 def get_recommendations(model, mood, hour):
    
-   
+
     prompt = create_prompt(mood, hour)
     response = model.generate_content(prompt)
     
