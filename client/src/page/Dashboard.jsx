@@ -15,9 +15,11 @@ const Dashboard = () => {
   // Initialize user_id from localStorage
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
+   
     if (storedUserId) {
       setUserId(storedUserId);
     }
+
   }, []);
 
   const handleSubmit = async (e) => {
@@ -32,7 +34,7 @@ const Dashboard = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mood, hour: currentHour, user_id }),
+        body: JSON.stringify({ mood: mood, hour: currentHour, user_id: user_id}),
       });
 
       if (!response.ok) {
@@ -171,6 +173,7 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+      <div className='p-4'></div>
       <div className='flex justify-center'>
         <div className='bg-slate-500'>
           <button onClick={handlelogout} className='w-full bg-red-600 p-4 text-white py-3 rounded-xl'>Logout</button>

@@ -1,44 +1,19 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_bcrypt import Bcrypt
-from models import db, User, MoodRecord, Song
-from config import Config
 import google.generativeai as genai
+from datetime import datetime
 import json
 import os
 from dotenv import load_dotenv
-from flask import current_app
-from sqlalchemy.exc import SQLAlchemyError
-
-
-
-
-load_dotenv()
-app = Flask(__name__)
-
-app.config.from_object(Config)
-CORS(app)
-db.init_app(app)
-bcrypt = Bcrypt(app)
-
 import requests
 from urllib.parse import quote
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
+load_dotenv()
 
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'pool_pre_ping': True,
-    'pool_recycle': 300,
-    'connect_args': {
-        'keepalives': 1,
-        'keepalives_idle': 30,
-        'keepalives_interval': 10,
-        'keepalives_count': 5,
-        'connect_timeout': 10
-    }
-}
-
+app = Flask(__name__)
+CORS(app)
 def setup_spotify_client():
     client_id = os.getenv('SPOTIFY_CLIENT_ID')
     client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
@@ -158,7 +133,7 @@ def get_recommendations(model, mood, hour):
     
     try:
         content = response.text
-        cleaned_content = content.strip().strip("```json").strip("```")
+        cleaned_content = content.strip().strip("json").strip("")
         recommendations = json.loads(cleaned_content)
         
         # Add YouTube and Spotify links to songs
@@ -186,88 +161,20 @@ def get_recommendations(model, mood, hour):
     except Exception as e:
         return {"error": str(e), "details": str(e)}
 
-@app.route('/api/register', methods=['POST'])
-def register():
-    data = request.json
-    email = data.get('email')
-    password = data.get('password')
-
-    if not email or not password:
-        return jsonify({"error": "Email and password are required"}), 400
-
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        return jsonify({"error": "Email already exists"}), 400
-
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    new_user = User(email=email, password=hashed_password)
-    
-    db.session.add(new_user)
-    db.session.commit()
-
-    return jsonify({"message": "User registered successfully","user_id": new_user.id}), 201
-
-@app.route('/api/login', methods=['POST'])
-def login():
-    data = request.json
-    email = data.get('email')
-    password = data.get('password')
-
-    user = User.query.filter_by(email=email).first()
-    if user and bcrypt.check_password_hash(user.password, password):
-        return jsonify({"message": "Login successful", "user_id": user.id}), 200
-    
-    return jsonify({"error": "Invalid credentials"}), 401
 @app.route('/api/recommendations', methods=['POST'])
 def recommendations():
     data = request.json
     mood = data.get('mood')
     client_hour = data.get('hour')
-    user_id = data.get('user_id')
-
-    if not mood or client_hour is None or not user_id:
-        return jsonify({"error": "Mood, hour, and user_id are required"}), 400
- 
     
-    try:
-        # Verify user exists
-        user = User.query.get(user_id)
-        if not user:
-            return jsonify({"error": "User not found"}), 404
+    if not mood:
+        return jsonify({"error": "Mood is required"}), 400
+    
+    if client_hour is None:
+        return jsonify({"error": "Hour is required"}), 400
+    
+    recommendations = get_recommendations(model, mood, client_hour)
+    return jsonify(recommendations)
 
-        recommendations = get_recommendations(model, mood, client_hour)
-        
-        mood_record = MoodRecord(
-            user_id=user_id, 
-            mood=mood, 
-            cuisine=recommendations.get('cuisine', ''),
-            explanation=recommendations.get('explanation', '')
-        )
-        db.session.add(mood_record)
-        db.session.flush()
-
-        songs_to_add = [
-            Song(
-                mood_record_id=mood_record.id, 
-                title=song.get('title', ''),
-                youtube_link=song.get('youtubeLink', ''),
-                spotify_link=song.get('spotifyLink', '')
-            ) for song in recommendations.get('songs', [])
-        ]
-        db.session.add_all(songs_to_add)
-        
-        db.session.commit()
-
-        return jsonify(recommendations)
-
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        current_app.logger.error(f"Database error: {str(e)}")
-        return jsonify({"error": "Database error occurred"}), 500
-
-with app.app_context():
-    db.create_all()
-
-
-if __name__ == '__main__':
+if __name__ == '_main_':
     app.run(debug=True, port=5000)
