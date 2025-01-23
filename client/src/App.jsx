@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Music, Info, Coffee } from 'lucide-react';
-
+import { AiOutlineSpotify , FiYoutube } from "react-icons/ai";
 const App = () => {
   const [mood, setMood] = useState('');
   const [recommendations, setRecommendations] = useState(null);
@@ -27,8 +27,7 @@ const App = () => {
       }
 
       const data = await response.json();
-    
-console.log('API Response:', data);
+      console.log('API Response:', data);
 
       // Ensure the data is in the correct format
       if (!data.songs || !Array.isArray(data.songs)) {
@@ -102,20 +101,35 @@ console.log('API Response:', data);
                 <Music className="text-purple-600 mr-2" />
                 <h2 className="text-xl font-semibold">Music Recommendations</h2>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-4">
                 {recommendations.songs && recommendations.songs.length > 0 ? (
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     {recommendations.songs.map((song, index) => (
-                      <li key={index} className="flex items-center">
-                        <Music size={16} className="text-purple-600 mr-2" />
-                        <a
-                          // href={song.youtubeLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className=""
-                        >
-                          {song.title}
-                        </a>
+                      <li key={index} className="bg-gray-50 p-3 rounded-lg flex justify-between items-center">
+                        <span className="text-gray-800">{song.title}</span>
+                        <div className="flex space-x-2">
+                          {song.youtubeLink && (
+                            <a 
+                              href={song.youtubeLink} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-red-600 hover:text-red-700 transition-colors"
+                            >
+                              <FiYoutube size={24} />
+                            </a>
+                          )}
+                          {song.spotifyLink && (
+                            <a 
+                              href={song.spotifyLink} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-green-600 hover:text-green-700 transition-colors"
+                            >
+                              {/* <Spotify size={24} /> */}
+                              <AiOutlineSpotify size={24}/>
+                            </a>
+                          )}
+                        </div>
                       </li>
                     ))}
                   </ul>
