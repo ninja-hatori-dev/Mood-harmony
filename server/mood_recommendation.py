@@ -15,7 +15,6 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# Spotify Client Setup
 def setup_spotify_client():
     client_id = os.getenv('SPOTIFY_CLIENT_ID')
     client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
@@ -29,7 +28,7 @@ def setup_spotify_client():
     )
     return spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-# Initialize Spotify and Gemini clients
+
 spotify_client = setup_spotify_client()
 
 def setup_gemini():
@@ -43,7 +42,7 @@ def setup_gemini():
 model = setup_gemini()
 
 def get_youtube_link(song_title):
-    """Search YouTube for a song and return the first result's link."""
+   
     YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
     
     if not YOUTUBE_API_KEY:
@@ -76,7 +75,7 @@ def get_youtube_link(song_title):
         return None
 
 def get_spotify_link(song_title, artist):
-    """Search Spotify for a song and return its link."""
+   
     try:
         # Search for the track
         results = spotify_client.search(q=f'track:{song_title} artist:{artist}', type='track', limit=1)
@@ -128,7 +127,8 @@ Format the response as a JSON object with the following structure:
 }}"""
 
 def get_recommendations(model, mood, hour):
-    """Get personalized recommendations using Gemini and add links."""
+   
+   
     prompt = create_prompt(mood, hour)
     response = model.generate_content(prompt)
     

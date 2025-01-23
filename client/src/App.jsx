@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Music, Info, Coffee } from 'lucide-react';
-import { AiOutlineSpotify , FiYoutube } from "react-icons/ai";
+import { AiOutlineSpotify } from "react-icons/ai";
+import { FiYoutube } from "react-icons/fi";
 const App = () => {
   const [mood, setMood] = useState('');
   const [recommendations, setRecommendations] = useState(null);
