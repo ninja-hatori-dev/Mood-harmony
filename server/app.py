@@ -135,7 +135,7 @@ def create_prompt(mood, hour):
 Please suggest:
 1. A specific type of cuisine or dish that complements their emotional state.
 2. 5 specific songs with their full titles including artist names that match the mood.
-3. A brief explanation of why these recommendations are beneficial.
+3. A brief explanation in less than 200 characters of why these recommendations are beneficial.
 
 Format the response as a JSON object with the following structure:
 {{
