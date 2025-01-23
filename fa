@@ -1,0 +1,65 @@
+[33mcommit 81518864e4dae564d37ecf8f7c2a1397476d38f7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Your Name <you@example.com>
+Date:   Thu Jan 23 08:57:43 2025 +0530
+
+    updated dependencies
+
+[33mcommit bdcbdf4e77da94620aa4e8f42496945561faa653[m
+Author: Your Name <you@example.com>
+Date:   Thu Jan 23 08:40:47 2025 +0530
+
+    cors
+
+[33mcommit 46db8b2582b4e7e05b84ea688e8957125bfe3ab0[m
+Author: Your Name <you@example.com>
+Date:   Thu Jan 23 08:30:22 2025 +0530
+
+    cors
+
+[33mcommit c30ce37ca097f4673afe9aec261bc16871013f70[m
+Author: Your Name <you@example.com>
+Date:   Thu Jan 23 08:23:16 2025 +0530
+
+    youtube button
+
+[33mcommit 3f80375f5b6c7ac7da9195c5f73380ce9d12c810[m
+Author: Your Name <you@example.com>
+Date:   Thu Jan 23 07:45:40 2025 +0530
+
+    added streaming features
+
+[33mcommit 1274d14a06c0ecb496d3c62a1f212785471c46eb[m
+Author: Your Name <you@example.com>
+Date:   Wed Jan 22 15:51:52 2025 +0530
+
+    songs name instead of genre
+
+[33mcommit b66e8770c08f387b8734d8055f00be056a50f345[m
+Author: ninja-hatori-dev <anshulsharma.add@gmail.com>
+Date:   Wed Jan 22 12:32:39 2025 +0530
+
+    update README.md
+
+[33mcommit 7988b8988fda0a24a4fa750df9bff63ada4bd491[m
+Author: Your Name <you@example.com>
+Date:   Wed Jan 22 12:09:26 2025 +0530
+
+    Fetching of time is changed form server to client
+
+[33mcommit 3d920575e019024c8a15a071df1bdb05289eba1e[m
+Author: Your Name <you@example.com>
+Date:   Wed Jan 22 05:38:01 2025 +0530
+
+    Add frontend: React
+
+[33mcommit 0e030f01f059b2c1f044f75df320095ea12ef20a[m
+Author: Your Name <you@example.com>
+Date:   Wed Jan 22 04:42:12 2025 +0530
+
+    Add backend: Flask server with Gemini integration
+
+[33mcommit 5cded398e0f5bb05e9412e36e2538d90a43d1c16[m
+Author: Your Name <you@example.com>
+Date:   Wed Jan 22 04:41:26 2025 +0530
+
+    first commit

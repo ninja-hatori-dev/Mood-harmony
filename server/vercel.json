@@ -2,14 +2,14 @@
     "version": 2,
     "builds": [
         {
-            "src": "mood_recommendation.py",
+            "src": "app.py",
             "use": "@vercel/python"
         }
     ],
     "routes": [
         {
-            "src": "/api/recommendations",
-            "dest": "mood_recommendation.py"
+           "src": "/(.*)",
+            "dest": "app.py"
         }
     ],
     "env": {
