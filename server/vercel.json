@@ -6,12 +6,20 @@
             "use": "@vercel/python"
         }
     ],
-    "routes": [
-        {
-           "src": "/(.*)",
-            "dest": "app.py"
-        }
-    ],
+  "routes": [
+    {
+      "src": "/api/register",
+      "dest": "/app.py"
+    },
+    {
+      "src": "/api/login",
+      "dest": "/app.py"
+    },
+    {
+      "src": "/api/recommendations",
+      "dest": "/app.py"
+    }
+  ],
     "env": {
         "PYTHON_VERSION": "3.9"
     }
