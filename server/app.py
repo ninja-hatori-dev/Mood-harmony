@@ -120,6 +120,7 @@ def get_spotify_link(song_title, artist):
         return None
 
 def get_time_of_day(hour):
+    hour = int(hour)
     if 5 <= hour < 12:
         return "morning"
     elif 12 <= hour < 17:
